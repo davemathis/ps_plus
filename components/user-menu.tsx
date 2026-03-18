@@ -1,12 +1,11 @@
 "use client"
 
-import { Check, ChevronDown, Laptop, Moon, Sun } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Check, Monitor, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 type ThemeOption = "light" | "dark" | "system"
 
@@ -32,56 +31,64 @@ export function UserMenu({
   email?: string | null
 }) {
   const { theme, setTheme } = useTheme()
-  const selectedTheme = (theme ?? "system") as ThemeOption
+  const [mounted, setMounted] = useState(false)
+  const selectedTheme = mounted ? ((theme ?? "system") as ThemeOption) : "system"
+  const initials = getInitials(displayName)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        className={cn(
-          buttonVariants({ variant: "outline", size: "lg" }),
-          "h-10 gap-3 rounded-full px-2.5"
-        )}
-      >
-        <Avatar size="sm">
-          <AvatarFallback>{getInitials(displayName)}</AvatarFallback>
-        </Avatar>
-        <span className="max-w-44 truncate text-sm">{displayName}</span>
-        <ChevronDown className="size-4 text-muted-foreground" />
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="sm" className="gap-2">
+          <div className="flex size-7 items-center justify-center overflow-hidden rounded-full bg-primary text-xs font-medium text-primary-foreground">
+            {initials}
+          </div>
+          <span className="max-w-44 truncate text-sm">{displayName}</span>
+        </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuPortal>
-        <DropdownMenuContent align="end" className="min-w-64">
-          <DropdownMenuLabel className="px-2 py-2">
-            <div className="font-medium text-foreground">{displayName}</div>
-            {email ? (
-              <div className="mt-1 text-xs text-muted-foreground">{email}</div>
-            ) : null}
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuLabel inset>Appearance</DropdownMenuLabel>
-          <DropdownMenuRadioGroup
-            value={selectedTheme}
-            onValueChange={(value) => setTheme(value as ThemeOption)}
-          >
-            <DropdownMenuRadioItem value="light">
-              <Sun />
-              Light
-            </DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="dark">
-              <Moon />
-              Dark
-            </DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="system">
-              <Laptop />
-              System
-            </DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem disabled>
-            <Check />
-            Signed in with Entra ID
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenuPortal>
+      <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuLabel>Theme</DropdownMenuLabel>
+        <div className="px-2 pb-2">
+          <div className="flex items-center gap-1 rounded-md border bg-background p-1">
+            <Button
+              type="button"
+              size="icon"
+              variant={selectedTheme === "light" ? "secondary" : "ghost"}
+              className="h-8 w-8"
+              onClick={() => setTheme("light")}
+            >
+              <Sun className="size-4" />
+            </Button>
+            <Button
+              type="button"
+              size="icon"
+              variant={selectedTheme === "dark" ? "secondary" : "ghost"}
+              className="h-8 w-8"
+              onClick={() => setTheme("dark")}
+            >
+              <Moon className="size-4" />
+            </Button>
+            <Button
+              type="button"
+              size="icon"
+              variant={selectedTheme === "system" ? "secondary" : "ghost"}
+              className="h-8 w-8"
+              onClick={() => setTheme("system")}
+            >
+              <Monitor className="size-4" />
+            </Button>
+          </div>
+        </div>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem disabled className="flex-col items-start gap-1">
+          <Check />
+          <span>Signed in with Entra ID</span>
+          {email ? <span className="text-xs text-muted-foreground">{email}</span> : null}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
     </DropdownMenu>
   )
 }

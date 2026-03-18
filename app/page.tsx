@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { HomeIcon, Menu, ShieldCheck, UserRound } from "lucide-react";
 
 import { UserMenu } from "@/components/user-menu";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -103,47 +104,118 @@ export default async function Home() {
   const email = signedInUser?.email ?? null;
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/70">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
-          <div>
-            <div className="text-lg font-semibold tracking-tight">PS Plus</div>
-            <div className="text-sm text-muted-foreground">
-              App Service authenticated workspace
+    <div className="flex min-h-screen bg-background text-foreground">
+      <aside className="hidden w-64 border-r border-sidebar-border bg-sidebar md:flex md:flex-col">
+        <div className="flex h-16 items-center px-4">
+          <div className="flex flex-1 items-center gap-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sidebar-accent text-sidebar-accent-foreground">
+              <Menu className="size-5" />
+            </div>
+            <span className="text-base font-semibold text-sidebar-foreground">
+              PS Plus
+            </span>
+          </div>
+        </div>
+        <nav className="flex-1 space-y-4 p-4">
+          <div className="space-y-1">
+            <div className="px-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Workspace
+            </div>
+            <div className="flex items-center gap-3 rounded-lg bg-sidebar-accent px-3 py-2 text-sm text-sidebar-accent-foreground">
+              <HomeIcon className="size-4" />
+              Home
             </div>
           </div>
+          <div className="space-y-1">
+            <div className="px-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Identity
+            </div>
+            <div className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground">
+              <UserRound className="size-4" />
+              Entra profile
+            </div>
+            <div className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground">
+              <ShieldCheck className="size-4" />
+              App Service auth
+            </div>
+          </div>
+        </nav>
+      </aside>
+      <div className="flex min-h-screen flex-1 flex-col">
+        <header className="hidden h-16 items-center gap-4 border-b bg-card px-6 md:flex">
+          <div className="flex-1" />
+          <div className="max-w-[220px] truncate text-sm text-muted-foreground">
+            {email ?? "Local development"}
+          </div>
           <UserMenu displayName={displayName} email={email} />
-        </div>
-      </header>
-      <main className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-8">
-        <Card className="border shadow-sm">
-          <CardHeader>
-            <CardTitle>Welcome to PS Plus</CardTitle>
-            <CardDescription>
-              The top-right menu shows the signed-in Entra user and lets them switch between light, dark, and system themes.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-lg border bg-muted/30 p-4">
-                <div className="text-sm font-medium">Display name</div>
-                <div className="mt-2 text-sm text-muted-foreground">
-                  {displayName}
-                </div>
-              </div>
-              <div className="rounded-lg border bg-muted/30 p-4">
-                <div className="text-sm font-medium">Email or login</div>
-                <div className="mt-2 text-sm text-muted-foreground">
-                  {email ?? "Unavailable in local development"}
-                </div>
-              </div>
+        </header>
+        <main className="flex-1 bg-background px-6 py-8">
+          <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
+            <div>
+              <h1 className="text-2xl font-semibold tracking-tight">Home</h1>
+              <p className="mt-1 text-sm text-muted-foreground">
+                App Service authenticated workspace
+              </p>
             </div>
-            <div className="rounded-lg border border-dashed bg-muted/20 p-4 text-sm leading-6 text-muted-foreground">
-              Azure App Service always gives a reliable login name when authentication is configured. First and last name can also be available through Entra claims in <code>x-ms-client-principal</code>, but that depends on which claims are issued for the signed-in account.
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(320px,0.8fr)]">
+              <Card className="border shadow-sm">
+                <CardHeader>
+                  <CardTitle>Welcome to PS Plus</CardTitle>
+                  <CardDescription>
+                    This shell now follows the Rosterwell structure more closely: fixed-width sidebar, card top bar, Outfit typography, and the same Radix-based shadcn component style.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="rounded-lg border border-dashed bg-muted/30 p-4 text-sm leading-6 text-muted-foreground">
+                    Azure App Service gives you the signed-in login identity in request headers. When Entra also sends name claims, this page prefers those values for the user menu.
+                  </div>
+                  <div className="grid gap-4 md:grid-cols-3">
+                    <div className="rounded-lg border bg-background p-4 shadow-sm">
+                      <div className="text-sm font-medium">Auth source</div>
+                      <div className="mt-2 text-2xl font-semibold tracking-tight">Entra ID</div>
+                      <div className="mt-1 text-xs text-muted-foreground">Azure App Service headers</div>
+                    </div>
+                    <div className="rounded-lg border bg-background p-4 shadow-sm">
+                      <div className="text-sm font-medium">Theme control</div>
+                      <div className="mt-2 text-2xl font-semibold tracking-tight">Built in</div>
+                      <div className="mt-1 text-xs text-muted-foreground">Light, dark, and system</div>
+                    </div>
+                    <div className="rounded-lg border bg-background p-4 shadow-sm">
+                      <div className="text-sm font-medium">Runtime mode</div>
+                      <div className="mt-2 text-2xl font-semibold tracking-tight">Server aware</div>
+                      <div className="mt-1 text-xs text-muted-foreground">Claims parsed on the server</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="border shadow-sm">
+                <CardHeader>
+                  <CardTitle>User identity</CardTitle>
+                  <CardDescription>
+                    Values resolved from App Service authentication headers.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="rounded-lg border bg-background p-4">
+                    <div className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      Display name
+                    </div>
+                    <div className="mt-2 text-base font-medium">{displayName}</div>
+                  </div>
+                  <div className="rounded-lg border bg-background p-4">
+                    <div className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      Email or login
+                    </div>
+                    <div className="mt-2 break-all text-sm text-muted-foreground">
+                      {email ?? "Unavailable in local development"}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-          </CardContent>
-        </Card>
-      </main>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
