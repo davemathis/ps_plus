@@ -39,42 +39,60 @@ export function DashboardShell({
             >
               <Menu className="size-5" />
             </Button>
-            {!isCollapsed ? (
-              <span className="text-base font-semibold text-sidebar-foreground">
-                PS Plus
-              </span>
-            ) : null}
+            <span
+              className={`overflow-hidden whitespace-nowrap text-base font-semibold text-sidebar-foreground transition-all duration-300 ${
+                isCollapsed ? "max-w-0 opacity-0" : "max-w-48 opacity-100"
+              }`}
+            >
+              FTSC Customer Portal
+            </span>
           </div>
         </div>
         <nav className={`flex-1 space-y-4 ${isCollapsed ? "p-2" : "p-4"}`}>
           <div className="space-y-1">
-            {!isCollapsed ? (
-              <div className="px-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                Workspace
-              </div>
-            ) : null}
+            <div
+              className={`overflow-hidden px-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition-all duration-300 ${
+                isCollapsed ? "max-h-0 opacity-0" : "max-h-6 opacity-100"
+              }`}
+            >
+              Workspace
+            </div>
             <div
               className={`flex items-center gap-3 rounded-lg bg-sidebar-accent text-sm text-sidebar-accent-foreground ${
                 isCollapsed ? "justify-center px-2 py-2" : "px-3 py-2"
               }`}
             >
               <HomeIcon className="size-4" />
-              {!isCollapsed ? "Home" : null}
+              <span
+                className={`overflow-hidden whitespace-nowrap transition-all duration-300 ${
+                  isCollapsed ? "max-w-0 opacity-0" : "max-w-24 opacity-100"
+                }`}
+              >
+                Home
+              </span>
             </div>
           </div>
           <div className="space-y-1">
-            {!isCollapsed ? (
-              <div className="px-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                Identity
-              </div>
-            ) : null}
+            <div
+              className={`overflow-hidden px-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition-all duration-300 ${
+                isCollapsed ? "max-h-0 opacity-0" : "max-h-6 opacity-100"
+              }`}
+            >
+              Identity
+            </div>
             <div
               className={`flex items-center gap-3 rounded-lg text-sm text-sidebar-foreground ${
                 isCollapsed ? "justify-center px-2 py-2" : "px-3 py-2"
               }`}
             >
               <UserRound className="size-4" />
-              {!isCollapsed ? "Entra profile" : null}
+              <span
+                className={`overflow-hidden whitespace-nowrap transition-all duration-300 ${
+                  isCollapsed ? "max-w-0 opacity-0" : "max-w-32 opacity-100"
+                }`}
+              >
+                Entra profile
+              </span>
             </div>
             <div
               className={`flex items-center gap-3 rounded-lg text-sm text-sidebar-foreground ${
@@ -82,7 +100,13 @@ export function DashboardShell({
               }`}
             >
               <ShieldCheck className="size-4" />
-              {!isCollapsed ? "App Service auth" : null}
+              <span
+                className={`overflow-hidden whitespace-nowrap transition-all duration-300 ${
+                  isCollapsed ? "max-w-0 opacity-0" : "max-w-36 opacity-100"
+                }`}
+              >
+                App Service auth
+              </span>
             </div>
           </div>
         </nav>
@@ -97,13 +121,13 @@ export function DashboardShell({
             <div>
               <h1 className="text-2xl font-semibold tracking-tight">Home</h1>
               <p className="mt-1 text-sm text-muted-foreground">
-                App Service authenticated workspace
+                FTSC Customer Portal
               </p>
             </div>
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(320px,0.8fr)]">
               <Card className="border shadow-sm">
                 <CardHeader>
-                  <CardTitle>Welcome to PS Plus</CardTitle>
+                  <CardTitle>Welcome to FTSC Customer Portal</CardTitle>
                   <CardDescription>
                     This shell follows the Rosterwell dashboard pattern: collapsible sidebar, card top bar, Outfit typography, and the same Radix-based shadcn component style.
                   </CardDescription>

@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PS Plus",
-  description: "PS Plus dashboard",
+  title: "FTSC Customer Portal",
+  description: "FTSC Customer Portal dashboard",
 };
 
 export default function RootLayout({

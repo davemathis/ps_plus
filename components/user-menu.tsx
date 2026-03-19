@@ -35,6 +35,11 @@ export function UserMenu({
   const selectedTheme = mounted ? ((theme ?? "system") as ThemeOption) : "system"
   const initials = getInitials(displayName)
 
+  function handleLogout() {
+    const redirectTarget = encodeURIComponent("/")
+    window.location.href = `/.auth/logout?post_logout_redirect_uri=${redirectTarget}`
+  }
+
   useEffect(() => {
     setMounted(true)
   }, [])
@@ -87,6 +92,10 @@ export function UserMenu({
           <Check />
           <span>Signed in with Entra ID</span>
           {email ? <span className="text-xs text-muted-foreground">{email}</span> : null}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={handleLogout}>
+          <span>Logout</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
