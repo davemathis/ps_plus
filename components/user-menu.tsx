@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useSyncExternalStore } from "react"
 import { Check, Monitor, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
@@ -31,7 +31,11 @@ export function UserMenu({
   email?: string | null
 }) {
   const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const mounted = useSyncExternalStore(
+    () => () => undefined,
+    () => true,
+    () => false
+  )
   const selectedTheme = mounted ? ((theme ?? "system") as ThemeOption) : "system"
   const initials = getInitials(displayName)
 
@@ -39,11 +43,6 @@ export function UserMenu({
     const redirectTarget = encodeURIComponent("/")
     window.location.href = `/.auth/logout?post_logout_redirect_uri=${redirectTarget}`
   }
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
